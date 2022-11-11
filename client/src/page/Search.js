@@ -1,28 +1,46 @@
 import Navbar from "../components/Navbar"
 import Pagination from "../components/Pagination"
-import kanjiImg from "../img/kanji_test.svg"
-
+import {allData as kanjiData} from "../data/kanjiData.js"
+import { useState } from "react"
 
 export default function Search() {
+    
+    const [state, setstate] = useState({
+        keyword: '',
+        list: []
+      })
+
+    const handleChange = async (e) => {
+        const results = kanjiData.filter(data => {
+            if (e.target.value === "") {
+                return data
+            }
+            return data.english.toLowerCase().includes(e.target.value.toLowerCase()) && data.examples.map(el => el.toLowerCase().includes(e.target.value.toLowerCase()))
+        })
+        setstate({
+            keyword: e.target.value,
+            list: results
+        })
+    }
+    
     return(
         <>
             <Navbar/>
             
             <div class="px-8 pb-8 lg:mx-40">
                 <section>
-                    <form>
-                        <div class="flex items-center justify-center m-6">
-                            <div class="relative w-full max-w-2xl">
-                                <input type="search" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-r-lg border border-strokeColour focus:ring-blue-500 focus:border-blue-500" placeholder="Search Kanji, meaning..." required />
-                                <button type="submit" class="absolute top-0 right-0 p-2.5 text-sm font-medium text-white bg-blue-700 rounded-r-lg border border-blue-500 hover:bg-blue-800 focus:outline-none">
-                                    <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                    </svg>
-                                    <span class="sr-only">Search</span>
-                                </button>
-                            </div>
+                    <div class="flex items-center justify-center m-6">
+                        <div class="w-full max-w-2xl">
+                            <form>
+                                <input 
+                                type="search" 
+                                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-strokeColour focus:ring-blue-500 focus:border-blue-500" 
+                                placeholder="Search Kanji, meaning..." 
+                                value={state.keyword}
+                                onChange={handleChange} />
+                            </form>
                         </div>
-                    </form>
+                    </div>
                 </section>
             </div>
 
@@ -40,7 +58,6 @@ export default function Search() {
                                 <thead>
                                     <tr>
                                         <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                            <i class="fa-regular fa-bookmark"></i>
                                             Kanji & Meaning
                                         </th>
                                         <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -56,85 +73,39 @@ export default function Search() {
                                 </thead>
 
                                 <tbody>
-                                    <tr>
-                                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                            <div class="flex items-center">
-                                                <div class="flex-shrink-0 w-10 h-10">
-                                                    <img class="w-full h-full" src={kanjiImg} alt="" />
-                                                </div>
-                                                <div class="ml-3">
-                                                    <p class="text-gray-900 whitespace-no-wrap">
-                                                        duty, work, serve
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                            <p class="text-gray-900 whitespace-no-wrap">mu</p>
-                                        </td>
-                                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                            <p class="text-gray-900 whitespace-no-wrap">
-                                                tsuto, tsutomeru, tsutomaru
-                                            </p>
-                                        </td>
-                                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                            <p class="text-gray-900 whitespace-no-wrap">
-                                                義務（ぎむ）
-                                            </p>
-                                            <p class="text-gray-900 whitespace-no-wrap">
-                                                義務（ぎむ）
-                                            </p>
-                                            <p class="text-gray-900 whitespace-no-wrap">
-                                                義務（ぎむ）
-                                            </p>
-                                            <p class="text-gray-900 whitespace-no-wrap">
-                                                義務（ぎむ）
-                                            </p>
-                                            <p class="text-gray-900 whitespace-no-wrap">
-                                                義務（ぎむ）
-                                            </p>
-                                        </td>
-                                    </tr>
 
-                                    <tr>
+                                    {(state.keyword === '' ? "" : state.list.map(result => {
+                                        return <tr>
                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                             <div class="flex items-center">
                                                 <div class="flex-shrink-0 w-10 h-10">
-                                                    <img class="w-full h-full" src={kanjiImg} alt="" />
+                                                    <p class="text-gray-900 whitespace-no-wrap" key={result.kanji}>
+                                                        {result.kanji}
+                                                    </p>
                                                 </div>
                                                 <div class="ml-3">
-                                                    <p class="text-gray-900 whitespace-no-wrap">
-                                                        duty, work, serve
+                                                    <p class="text-gray-900 whitespace-no-wrap" key={result.english}>
+                                                        {result.english}
                                                     </p>
                                                 </div>
                                             </div>
                                         </td>
                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                            <p class="text-gray-900 whitespace-no-wrap">mu</p>
+                                            <p class="text-gray-900 whitespace-no-wrap" key={result.onyomi}>{result.onyomi}</p>
                                         </td>
                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                            <p class="text-gray-900 whitespace-no-wrap">
-                                                tsuto, tsutomeru, tsutomaru
+                                            <p class="text-gray-900 whitespace-no-wrap" key={result.kunyomi}>
+                                                {result.kunyomi}
                                             </p>
                                         </td>
                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                            <p class="text-gray-900 whitespace-no-wrap">
-                                                義務（ぎむ）
-                                            </p>
-                                            <p class="text-gray-900 whitespace-no-wrap">
-                                                義務（ぎむ）
-                                            </p>
-                                            <p class="text-gray-900 whitespace-no-wrap">
-                                                義務（ぎむ）
-                                            </p>
-                                            <p class="text-gray-900 whitespace-no-wrap">
-                                                義務（ぎむ）
-                                            </p>
-                                            <p class="text-gray-900 whitespace-no-wrap">
-                                                義務（ぎむ）
-                                            </p>
+                                            {result.examples !== "" ? result.examples.map(element => 
+                                                    <p class="text-gray-900 whitespace-no-wrap">{element}</p>
+                                            ) : " "}
                                         </td>
                                     </tr>
+                                        
+                                    }))}          
                                     
                                 </tbody>
                             </table>

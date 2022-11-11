@@ -21,18 +21,18 @@ export default function Signup() {
     const navigate = useNavigate();
 
     const handleChange = (e) => {
-    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+        setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
     const handleSignup = async (e) => {
-    e.preventDefault();
-    try {
-        const res = await axios.post(SIGNUP_URL, inputs);
-        dispatch({type: "SIGNIN_SUCCESS", payload: res.data})
-        navigate("/dashboard");
-    } catch (err) {
-        setError(err.response.data);
-    }
+        e.preventDefault();
+        try {
+            const res = await axios.post(SIGNUP_URL, inputs);
+            dispatch({type: "SIGNIN_SUCCESS", payload: res.data})
+            navigate("/dashboard");
+        } catch (err) {
+            setError(err.response.data);
+        }
     };
 
     return (

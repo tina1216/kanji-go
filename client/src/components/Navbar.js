@@ -1,11 +1,14 @@
 import logo from '../img/logo_rec.svg'
 import {Link} from 'react-router-dom'
+import { useNavigate } from 'react-router';
 import { useContext } from 'react'
 import { AuthContext } from '../context/AuthContext'
 
 export const Navbar = () => {
 
-    const {user} = useContext(AuthContext)
+    const navigate = useNavigate()
+    const {user, dispatch} = useContext(AuthContext);
+    console.log(user)
 
     return(
         <>
@@ -49,8 +52,15 @@ export const Navbar = () => {
                     </Link>
                    
                     <div class="flex items-center">
-                        <Link to="/home">
-                            <a href="/" class="hidden md:block p-3 px-4 pt-2 text-mainBlue rounded-full bg-white baseline hover:text-white hover:bg-mainBlue outline outline-1">Sign Out</a>
+                        <Link to="/home" 
+                        className="hidden md:block p-3 px-4 pt-2 text-mainBlue rounded-full bg-white baseline hover:text-white hover:bg-mainBlue outline outline-1"
+                        onClick={() => {
+                            localStorage.clear()
+                            dispatch({type: "SIGNOUT"})
+                            navigate("/signin")
+                          }}
+                          >
+                            Sign Out
                         </Link>
                     </div>
                 </aside>}
