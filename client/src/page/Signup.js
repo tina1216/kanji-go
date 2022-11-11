@@ -1,8 +1,9 @@
 import logo from '../img/kanjiGo_logo.svg'
 import Header from '../components/Header'
-import {useState} from "react"
+import {useContext, useState} from "react"
 import { Link, useNavigate } from "react-router-dom";
 import axios from '../api/axios';
+import { AuthContext } from '../context/AuthContext';
 
 const SIGNUP_URL = "/api/auth/signup"
 
@@ -15,6 +16,7 @@ export default function Signup() {
       });
 
     const [err, setError] = useState(null);
+    const {dispatch} = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -25,7 +27,8 @@ export default function Signup() {
     const handleSignup = async (e) => {
     e.preventDefault();
     try {
-        await axios.post(SIGNUP_URL, inputs);
+        const res = await axios.post(SIGNUP_URL, inputs);
+        dispatch({type: "SIGNIN_SUCCESS", payload: res.data})
         navigate("/dashboard");
     } catch (err) {
         setError(err.response.data);

@@ -3,13 +3,6 @@ const Schema = mongoose.Schema;
 
 //parent of each comment
 const QuestionSchema = new mongoose.Schema({
-    writer: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-    }, 
-    parentOf: {
-        type: String,
-    },
     title: {
         type: String,
         required: true
@@ -17,6 +10,15 @@ const QuestionSchema = new mongoose.Schema({
     body: {
         type: String,
         required: true
+    },
+    comments: [{
+        title: String,
+        text: String,
+        postedBy:{type: Schema.Types.ObjectId, ref: "User"}
+    }],
+    postedBy: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     }
 }, { timestamps: true })
 

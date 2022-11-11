@@ -2,6 +2,10 @@ import {useState} from "react"
 
 export default function QuestionForm() {
 
+    const [inputs, setInputs] = useState({
+        title: "",
+        content: "",
+    })
 
     const sendComment = (event) => {
         event.preventDefault();

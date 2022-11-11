@@ -12,6 +12,7 @@ export const createQuestion = async(req, res) => {
     }
 }
 
+
 //update
 export const updateQuestion = async(req, res) => {
     try {
@@ -51,4 +52,48 @@ export const getAllQuestion = async(req, res) => {
     } catch(err) {
         res.status(500).json(err)
     }
+}
+
+//-----------------------------------------
+//create comment to a question
+export const createComment = async(req,res) => {
+    const comment = {
+        title: req.body.title,
+        text: req.body.text,
+        postedBy: req.user._id
+    }
+    
+    Question.findByIdAndUpdate(req.body.postId,{
+        $push: {comments: comment}
+    },{
+        new: true
+    })
+    .populate("comments.postedBy","_id name")
+    .populate("postedBy","_id name")
+    .exec((err,result) => {
+        if(err){
+            return res.status(422).json({error: err})
+        }else{
+            res.json(result)
+        }
+    })
+}
+
+//delete comment
+export const deleteComment = async(req,res) => {
+    Question.findOne(req.body.postId)
+    .populate("comments.postedBy", "_id name")
+    .populate("postedBy", "_id name")
+    .exec((err, post) => {
+        if(err || !post){
+            return res.status(422).json({error: err})
+        }
+        if(post.postedBy._id.toString() === req.user._id.toString()){
+              post.remove().then(result => {
+                  res.json(result)
+              }).catch(err=>{
+                  console.log(err)
+              })
+        }
+    })
 }

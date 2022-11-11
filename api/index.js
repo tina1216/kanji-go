@@ -9,7 +9,6 @@ import questionRoute from "./routes/question.js"
 import kanjiRoute from "./routes/kanji.js"
 import quizRoute from "./routes/quiz.js"
 import usersRoute from "./routes/users.js"
-import commentRoute from "./routes/comment.js"
 
 const app = express();
 dotenv.config()
@@ -42,7 +41,6 @@ app.use("/api/users", usersRoute);
 app.use("/api/quiz", quizRoute);
 //app.use("/api/kanji", kanjiRoute);
 app.use("/api/question", questionRoute);
-app.use("/api/comment", commentRoute);
 //app.use("/api/profile", authRoute);
 
 
