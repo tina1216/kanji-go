@@ -1,4 +1,4 @@
-import Pagination from "./Pagination"
+
 
 export default function MyLearnings() {
     return(
@@ -63,8 +63,6 @@ export default function MyLearnings() {
                         </div>
                     </li>
                 </ul>
-
-                <Pagination/>
 
             </section>
         </>

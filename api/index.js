@@ -40,7 +40,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);
 app.use("/api/quiz", quizRoute);
 //app.use("/api/kanji", kanjiRoute);
-app.use("/api/question", questionRoute);
+app.use("/api/questions", questionRoute);
 //app.use("/api/profile", authRoute);
 
 

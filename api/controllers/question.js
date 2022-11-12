@@ -2,6 +2,7 @@ import Question from "../models/Question.js";
 
 //create (generate) question
 export const createQuestion = async(req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     const newQuestion = new Question(req.body)
 
     try {
@@ -46,8 +47,10 @@ export const getQuestion = async(req, res) => {
 
 //get all questions
 export const getAllQuestion = async(req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     try {
         const questions = await Question.find(req.params.id);
+        console.log(questions)
         res.status(200).json(questions)
     } catch(err) {
         res.status(500).json(err)

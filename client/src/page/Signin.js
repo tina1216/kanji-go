@@ -30,7 +30,7 @@ export default function Signin() {
         try {
             const res = await axios.post(SIGNIN_URL, credentials)
             dispatch({type: "SIGNIN_SUCCESS", payload: res.data})
-            navigate("/dashboard")
+            if(res.data !== "undefined") navigate("/dashboard")
   
         } catch(err) {
             dispatch({type: "SIGNIN_FAILURE", payload: err.response.data})

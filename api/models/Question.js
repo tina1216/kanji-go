@@ -12,8 +12,10 @@ const QuestionSchema = new mongoose.Schema({
         required: true
     },
     comments: [{
+        default: "",
         title: String,
         text: String,
+        userId: String,
         postedBy:{type: Schema.Types.ObjectId, ref: "User"}
     }],
     postedBy: {

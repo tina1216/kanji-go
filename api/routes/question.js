@@ -5,7 +5,7 @@ import {createComment, createQuestion, deleteComment, deleteQuestion, getAllQues
 const router = express.Router();
 
 //create
-router.post("/", verifyUser, createQuestion);
+router.post("/qna", verifyUser, createQuestion);
 
 //update
 router.put("/:id",verifyUser, verifyAdmin, updateQuestion);

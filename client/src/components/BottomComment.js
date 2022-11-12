@@ -20,7 +20,7 @@ export default function BottomComment(comment) {
                                     {comment.body}
                                 </p>
                                 <span class="inline-flex items-center text-xs font-normal text-gray-500">
-                                    {comment.postedBy}
+                                    {comment.postedBy} - {comment.timestamps}
                                 </span>
                                 {/* { props.deletable && <div style={{cursor: "pointer"}} onClick={deleteComment}>DELETE</div> } */}
                             </div>

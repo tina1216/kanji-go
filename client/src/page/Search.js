@@ -1,5 +1,4 @@
 import Navbar from "../components/Navbar"
-import Pagination from "../components/Pagination"
 import {allData as kanjiData} from "../data/kanjiData.js"
 import { useState } from "react"
 
@@ -109,15 +108,11 @@ export default function Search() {
                                     
                                 </tbody>
                             </table>
-                            
-                            <Pagination/>
 
                         </div>
                     </div>
                 </div>
             </section>
-
-
         </>
     )
 }

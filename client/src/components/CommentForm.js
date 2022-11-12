@@ -2,7 +2,7 @@ import {useContext, useState} from "react"
 import { AuthContext } from '../context/AuthContext';
 import axios from '../api/axios';
 
-export default function QuestionForm() {
+export default function CommentForm() {
 
     const {user, loading} = useContext(AuthContext);
 
@@ -10,7 +10,6 @@ export default function QuestionForm() {
         title: "",
         body: "",
         userId: user.username,
-        comments: {},
         postedBy: user._id,
     })
 
@@ -21,7 +20,7 @@ export default function QuestionForm() {
     const handleChange = async(event) => {
         event.preventDefault();
         try {
-            await axios.post("/api/questions/comment", inputs);
+            await axios.put("/api/questions/qna", inputs);
         } catch (error) {
             console.log(error)
         }
@@ -43,7 +42,7 @@ export default function QuestionForm() {
                     <textarea 
                     class="form-textarea resize-none rounded-lg bg-gray-100 p-3 h-60 border border-strokeColour outline-none" 
                     spellcheck="false" 
-                    placeholder="Ask anything about Kanji..." 
+                    placeholder="Your answer" 
                     id="description"
                     onChange={handleChange}
                       ></textarea>

@@ -1,4 +1,3 @@
-import Pagination from "./Pagination"
 import Tab from "./Tab"
 import Easy from "../data/easy.json"
 import Medium from "../data/medium.json"
@@ -57,8 +56,6 @@ export default function BrowseCourses() {
                     })}
                     
                 </ul>
-
-                <Pagination/>
                 
             </section>
         </>

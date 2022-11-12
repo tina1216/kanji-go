@@ -1,5 +1,4 @@
 import Navbar from "../components/Navbar"
-import Pagination from "../components/Pagination"
 import kanjiImg from "../img/kanji_test.svg"
 
 export default function Saved() {
@@ -119,7 +118,6 @@ export default function Saved() {
                                 </tbody>
                             </table>
                             
-                            <Pagination/>
 
                         </div>
                     </div>
