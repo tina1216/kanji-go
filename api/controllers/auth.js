@@ -34,6 +34,7 @@ export const signin = async(req, res, next) => {
         }
 
         const isPswCorrect = await bcrypt.compare(req.body.password, user.password)
+        console.log(isPswCorrect)
         if(!isPswCorrect) {
             return res.status(400).send("Wrong email address or password")
         }

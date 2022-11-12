@@ -43,10 +43,11 @@ const AuthReducer = (state, action) => {
 export const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
 
-  //stay signed in even when reload the browser
+  //stay signed in even after reloading a browser
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(state.user));
   }, [state.user]);
+
 
   return (
     <AuthContext.Provider

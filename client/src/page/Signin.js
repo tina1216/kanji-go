@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router';
 
 import axios from '../api/axios';
 import { AuthContext } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
 
 const SIGNIN_URL = "/api/auth/signin"
 
@@ -19,7 +20,7 @@ export default function Signin() {
     const navigate = useNavigate()
 
     const signinUser = (e) => {
-        setCredentials((prev) => ({...prev, [e.target.name]: e.target.value}))
+        setCredentials((prev) => ({...prev, [e.target.id]: e.target.value}))
     }
 
     const handleSignin = async(e) => {
@@ -28,8 +29,9 @@ export default function Signin() {
         
         try {
             const res = await axios.post(SIGNIN_URL, credentials)
-            dispatch({type: "SIGNIN_SUCCESS", payload: res.data.details})
+            dispatch({type: "SIGNIN_SUCCESS", payload: res.data})
             navigate("/dashboard")
+  
         } catch(err) {
             dispatch({type: "SIGNIN_FAILURE", payload: err.response.data})
         }
@@ -54,7 +56,7 @@ export default function Signin() {
                         <label for="" class="text-gray-700">Email Address</label>
                         <input 
                         type="email"
-                        name="email" 
+                        id="email" 
                         class="w-full py-2 bg-almostWhite text-gray-500 px-1 outline-none outline-strokeColour focus:outline-none focus:ring focus:border-blue-500 mb-4 rounded drop-shadow-sm" 
                         onChange={signinUser}
                         />
@@ -62,13 +64,13 @@ export default function Signin() {
                         <label for="" class="text-gray-700">Password</label>
                         <input 
                         type="password" 
-                        name="password"
+                        id="password"
                         class="w-full py-2 bg-almostWhite text-gray-500 px-1 outline-none outline-strokeColour focus:outline-none focus:ring focus:border-blue-500 mb-4 rounded drop-shadow-sm" 
                         onChange={signinUser}
                         />
 
-                        <button onClick={handleSignin} disabled={loading} type="subumit" class="bg-mainBlue w-full text-white py-2 rounded hover:opacity-75 transition-colors">Sign in</button>
-                        <p>Don't have an account? <a href="/signup" class="text-blue-500">Sign Up</a></p>
+                        <button id="submit" onClick={handleSignin} disabled={loading} type="subumit" class="bg-mainBlue w-full text-white py-2 rounded hover:opacity-75 transition-colors">Sign in</button>
+                        <p>Don't have an account? <Link to="/signup"><span href="" class="text-blue-500">Sign Up</span></Link></p>
                     </div>
                 </form>
             </div>

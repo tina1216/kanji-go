@@ -55,9 +55,9 @@ export const Navbar = () => {
                         <Link to="/home" 
                         className="hidden md:block p-3 px-4 pt-2 text-mainBlue rounded-full bg-white baseline hover:text-white hover:bg-mainBlue outline outline-1"
                         onClick={() => {
-                            localStorage.clear()
+                            navigate("/")
                             dispatch({type: "SIGNOUT"})
-                            navigate("/signin")
+                            localStorage.clear()
                           }}
                           >
                             Sign Out
