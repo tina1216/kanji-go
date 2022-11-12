@@ -1,13 +1,26 @@
-import Navbar from "../components/Navbar"
-import Pagination from "../components/Pagination"
-import TopSingleQuestion from "../components/TopSingleQuestion"
 import {Link} from 'react-router-dom'
+import { useEffect, useState } from "react";
+import axios from '../api/axios';
+import Navbar from "../components/Navbar"
+import TopSingleQuestion from "../components/TopSingleQuestion"
 import QuestionForm from "../components/QuestionForm"
-import {useState} from "react"
+
 
 export default function Questions() {
 
-    const [questions, setQuestions] = useState([]);
+    const {questions, setQuestions} = useState({});
+
+    useEffect(() => {
+        const fetchQuestions = async () => {
+          const res = await axios.get("/api/question")
+          setQuestions(
+            res.data.sort((q1, q2) => {
+              return new Date(q2.createdAt) - new Date(q1.createdAt);
+            })
+          );
+        };
+        fetchQuestions();
+      });
 
     return(
         <>
@@ -19,11 +32,9 @@ export default function Questions() {
                         Q&A
                     </h1>
 
-                    {questions.map((question) => (
-                        <TopSingleQuestion props={question} autoFocus={false}/>
+                    {questions.map((q) => (
+                        <TopSingleQuestion key={q._id} post={q} autoFocus={false}/>
                     ))}
-
-                    <Pagination/>
 
                     <QuestionForm/>
                 </section>
