@@ -6,10 +6,10 @@ import Quiz from "./Quiz"
 import Saved from "./Saved"
 import Search from "./Search"
 import Questions from "./Questions"
+import Comments from "./Comments"
 import Profile from './Profile'
 
 import { Routes, Route} from 'react-router-dom'
-import Comments from './Comments'
 
 export const Home = () => {
   return (
@@ -25,8 +25,8 @@ export const Home = () => {
           <Route path="/saved" element={<Saved />} exact/>
           <Route path="/search" element={<Search />} exact/>
           <Route path="/questions" element={<Questions />} exact/>
-          <Route path="/questions/:questionId" element={<Comments />} exact/>
-          <Route path="/profile" element={<Profile />} exact/>
+          <Route path="/questions/:id" element={<Comments />} exact/>
+          <Route path="/profile/:id" element={<Profile />} exact/>
       </Routes>
 
     </>

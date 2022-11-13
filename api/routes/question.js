@@ -5,7 +5,7 @@ import {createComment, createQuestion, deleteComment, deleteQuestion, getAllQues
 const router = express.Router();
 
 //create
-router.post("/qna", verifyUser, createQuestion);
+router.post("/qna", createQuestion);
 
 //update
 router.put("/:id",verifyUser, verifyAdmin, updateQuestion);
@@ -21,7 +21,7 @@ router.get("/", getAllQuestion)
 
 //---------------------
 //create comment
-router.put("/comment", verifyUser, createComment)
+router.put("/comment", createComment)
 
 //delete comment
 router.delete("/comment/:id", verifyUser, verifyAdmin, deleteComment)

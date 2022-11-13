@@ -27,9 +27,8 @@ export default function Signup() {
     const handleSignup = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post(SIGNUP_URL, inputs);
-            dispatch({type: "SIGNIN_SUCCESS", payload: res.data})
-            navigate("/dashboard");
+            await axios.post(SIGNUP_URL, inputs);
+            navigate("/signin");
         } catch (err) {
             setError(err.response.data);
         }

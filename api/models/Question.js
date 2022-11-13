@@ -14,19 +14,23 @@ const QuestionSchema = new mongoose.Schema({
     comments: [{
         default: "",
         title: String,
-        text: String,
+        body: String,
         userId: String,
-        postedBy:{type: Schema.Types.ObjectId, ref: "User"}
+        postedBy:{
+            type: Schema.Types.ObjectId, 
+            ref: "User",
+        }
     }],
+    userId: {
+        type: String,
+    },
     postedBy: {
         type: Schema.Types.ObjectId,
         ref: 'User'
+    },
+    date : {
+        type: String,
     }
 }, { timestamps: true })
-
-QuestionSchema.methods.addComments = function ( val ) {
-    this.comments = Number( val );
-}
-
 
 export default mongoose.model("Question", QuestionSchema);

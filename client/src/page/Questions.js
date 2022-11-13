@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import {Link} from 'react-router-dom'
+import { useNavigate } from 'react-router';
 
 import Navbar from "../components/Navbar"
 import QuestionForm from "../components/QuestionForm"
@@ -8,8 +9,8 @@ import fetchData from '../hook/fetchData';
 
 
 export default function Questions() {
-    const {user} = useContext(AuthContext);
-    const { data, loading, error, reFetch } = fetchData("/api/questions")
+
+    const { data } = fetchData("/api/questions")
 
     return(
         <>
@@ -26,7 +27,8 @@ export default function Questions() {
                     {data ? ( 
                     <> 
                     {data.map((q) => (
-                      <Link to={"/questions/" + q._id}>
+                      
+                      <Link to={`/questions/${q._id}`}>
                         <div class="p-5 my-4 bg-white rounded-lg border border-strokeColour shadow-sm">
                           <ol class="mt-3 divide-y divider-strokeColor">
                             <li>
@@ -39,13 +41,13 @@ export default function Questions() {
                                       {q.body}
                                   </p>
                                   <span class="inline-flex items-center text-xs font-normal text-gray-500">
-                                      {q.postedBy} - {q.createdAt}
+                                      {q.userId ? q.userId : q.postedBy} - {q.date ? q.date : q.createdAt}
                                   </span> 
                               </div>
                             </li>
                           </ol>
                         </div>
-                      </Link>
+                        </Link>
                     ))} </> ) : (
                       <p>No post yet</p>
                     )}

@@ -1,6 +1,24 @@
+import { useContext, useState } from "react";
+import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar"
+import { AuthContext } from "../context/AuthContext";
+import fetchData from "../hook/fetchData"
+
 
 export default function Profile() {
+
+    const {user} = useContext(AuthContext);
+    const userParams = useParams();
+    const { data } = fetchData(`/api/users/${userParams.id}`)
+
+    const [newInputs, setNewInputs] = useState({
+        username: "",
+        email: "",
+        password: "",
+        profImg: "",
+        isAdmin: user.isAdmin,
+    })
+
     return(
         <>
             <Navbar/>
@@ -16,7 +34,12 @@ export default function Profile() {
                                     <form class="mt-6 border-t border-strokeColour pt-4">
                                         <div class='flex flex-col -mx-3 mb-6'>
                                             <div class="shrink-0 mt-5 px-3 mb-2">
-                                                <img class="h-20 w-20 object-cover rounded-full" src="https://sahilnetic.xyz/sahilnetic.png" alt="Current profile photo" />
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-circle" width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#6B7280" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                    <circle cx="12" cy="12" r="9" />
+                                                    <circle cx="12" cy="10" r="3" />
+                                                    <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
+                                                </svg>
                                             </div>
                                             <div class="px-3 mb-2">
                                                 <div class="flex justify-center items-center w-full">
@@ -33,15 +56,28 @@ export default function Profile() {
                                             
                                             <div class='w-full md:w-full px-3 mb-6'>
                                                 <label class='block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2'>user name</label>
-                                                <input class='appearance-none block w-full bg-white text-gray-900 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required/>
+                                                <input class='appearance-none block w-full bg-white text-gray-900 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none focus:border-gray-500' 
+                                                type='text' 
+                                                required
+                                                />
                                             </div>
+
                                             <div class='w-full md:w-full px-3 mb-6'>
                                                 <label class='block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2' for='grid-text-1'>Email address</label>
-                                                <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' id='grid-text-1' type='text' placeholder='Enter email' required/>
+                                                <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none focus:border-gray-500' 
+                                                id='grid-text-1' 
+                                                type='text' 
+                                                placeholder='Enter email' 
+                                                required/>
                                             </div>
+
                                             <div class='w-full md:w-full px-3 mb-6 '>
                                                 <label class='block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2'>Password</label>
-                                                <input class='appearance-none block w-full bg-white text-gray-900 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' id='grid-text-1' type='password' placeholder='Enter password' required/>
+                                                <input class='appearance-none block w-full bg-white text-gray-900 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none focus:border-gray-500' 
+                                                id='grid-text-1' 
+                                                type='password' 
+                                                placeholder='Enter password' 
+                                                required/>
                                             </div>
 
                                             <div class="personal w-full border-t border-strokeColour pt-4">

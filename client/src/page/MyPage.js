@@ -1,6 +1,4 @@
 import Banner from "../components/Banner"
-import MyLearnings from "../components/MyLearnings"
-import BrowseCourses from "../components/BrowseCourses"
 
 export default function MyPage() {
     return (
@@ -8,8 +6,7 @@ export default function MyPage() {
             <Banner/>
 
             <div className="px-8 lg:mx-40">
-                <MyLearnings/>
-                <BrowseCourses/>
+                <p>Nothing here yet...</p>
             </div>
         </>
     )

@@ -39,7 +39,7 @@ export const Navbar = () => {
                 </nav>
 
                 {user && <aside class="flex items-center pr-3 space-x-3">
-                    <Link to="/profile">
+                    <Link to={`/profile/${user._id}`}>
                         {user.username}
                         {/* <button class="h-12 w-12 flex items-center justify-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-circle" width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#6B7280" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -52,7 +52,7 @@ export const Navbar = () => {
                     </Link>
                    
                     <div class="flex items-center">
-                        <Link to="/home" 
+                        <Link to="/" 
                         className="hidden md:block p-3 px-4 pt-2 text-mainBlue rounded-full bg-white baseline hover:text-white hover:bg-mainBlue outline outline-1"
                         onClick={() => {
                             navigate("/")

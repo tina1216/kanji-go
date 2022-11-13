@@ -5,23 +5,26 @@ import axios from '../api/axios';
 export default function QuestionForm() {
 
     const {user, loading} = useContext(AuthContext);
+    const current = new Date();
 
     const [inputs, setInputs] = useState({
         title: "",
         body: "",
-        userId: user.username,
         comments: {},
+        userId: user.username,
         postedBy: user._id,
+        date: `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`,
     })
 
-    const postComment = (e) => {
+    const handleChange = (e) => {
         setInputs((prev) => ({ ...prev, [e.target.id]: e.target.value }));
     }
 
-    const handleChange = async(event) => {
+    const postQuestion = async(event) => {
         event.preventDefault();
         try {
-            await axios.post("/api/questions/comment", inputs);
+            await axios.post("/api/questions/qna", inputs)
+            window.location.reload(false);
         } catch (error) {
             console.log(error)
         }
@@ -31,8 +34,7 @@ export default function QuestionForm() {
         <>
             <section>
                 <div class="rounded-xl mx-auto flex flex-col text-gray-900 border border-strokeColour p-4 shadow-lg max-w-3xl">
-                    <input 
-                    class="form-input rounded-lg bg-gray-100 border border-strokeColour p-2 mb-4 outline-none" 
+                    <input class="form-input rounded-lg bg-gray-100 border border-strokeColour p-2 mb-4 outline-none" 
                     spellcheck="false" 
                     placeholder="Title" 
                     type="text"
@@ -44,12 +46,12 @@ export default function QuestionForm() {
                     class="form-textarea resize-none rounded-lg bg-gray-100 p-3 h-60 border border-strokeColour outline-none" 
                     spellcheck="false" 
                     placeholder="Ask anything about Kanji..." 
-                    id="description"
+                    id="body"
                     onChange={handleChange}
                       ></textarea>
 
                     <div class="mt-2 flex flex-col w-full"> 
-                        <button onClick={postComment} disabled={loading} class="h-10 px-5 m-2 text-white transition-colors duration-150 bg-mainBlue rounded-lg hover:bg-indigo-800 h-12 px-6 m-2 text-lg">
+                        <button onClick={postQuestion} disabled={loading} class="h-10 px-5 m-2 text-white transition-colors duration-150 bg-mainBlue rounded-lg hover:bg-indigo-800 h-12 px-6 m-2 text-lg">
                             Post
                         </button>
                     </div>

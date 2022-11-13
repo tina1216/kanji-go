@@ -5,22 +5,25 @@ import axios from '../api/axios';
 export default function CommentForm() {
 
     const {user, loading} = useContext(AuthContext);
+    const current = new Date();
 
     const [inputs, setInputs] = useState({
         title: "",
         body: "",
         userId: user.username,
         postedBy: user._id,
+        date: `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`,
     })
 
-    const postComment = (e) => {
+    const handleChange = (e) => {
         setInputs((prev) => ({ ...prev, [e.target.id]: e.target.value }));
     }
 
-    const handleChange = async(event) => {
+    const postComment = async(event) => {
         event.preventDefault();
         try {
             await axios.put("/api/questions/qna", inputs);
+            window.location.reload(false);
         } catch (error) {
             console.log(error)
         }

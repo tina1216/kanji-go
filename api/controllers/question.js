@@ -36,6 +36,7 @@ export const deleteQuestion = async(req, res) => {
 
 //get one specific question
 export const getQuestion = async(req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     try {
         const question = await Question.findById(req.params.id);
         res.status(200).json(question)
@@ -50,7 +51,6 @@ export const getAllQuestion = async(req, res) => {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     try {
         const questions = await Question.find(req.params.id);
-        console.log(questions)
         res.status(200).json(questions)
     } catch(err) {
         res.status(500).json(err)
@@ -60,13 +60,15 @@ export const getAllQuestion = async(req, res) => {
 //-----------------------------------------
 //create comment to a question
 export const createComment = async(req,res) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     const comment = {
         title: req.body.title,
-        text: req.body.text,
+        body: req.body.body,
+        userId: req.body.userId,
         postedBy: req.user._id
     }
     
-    Question.findByIdAndUpdate(req.body.postId,{
+    Question.findByIdAndUpdate(req.body.id,{
         $push: {comments: comment}
     },{
         new: true
