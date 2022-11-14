@@ -19,8 +19,7 @@ export default function Comments() {
     const deleteQuestion = async(e) => {
         e.preventDefault();
         try {
-            await axios.delete(`/api/questions/${qId.id}`)
-            navigate("/questions")
+            await axios.delete(`/api/questions/${qId.id}`).then(navigate("/questions"))
             return reFetch
         } catch (error) {
             console.log(error)
@@ -43,7 +42,7 @@ export default function Comments() {
                             <div class="flex items-center space-x-8">
                                 <time class="text-xs text-neutral-500">{data.date ? data.date : data.createdAt}</time>
                                 
-                                {data.postedBy === user._id ? 
+                                {data.postedBy === user._id || user.isAdmin === true ? 
                                 <button onClick={deleteQuestion} class="flex text-xs font-normal text-gray-500">
                                     delete
                                 </button> : ""}

@@ -26,12 +26,13 @@ export default function Signin() {
     const handleSignin = async(e) => {
         e.preventDefault();
         dispatch({type: "SIGNIN_START"})
-        
         try {
             const res = await axios.post(SIGNIN_URL, credentials)
             dispatch({type: "SIGNIN_SUCCESS", payload: res.data})
-            if(res.data !== "undefined") navigate("/dashboard")
-  
+            if(res.data) {
+                if(res.data.isAdmin === false) navigate("/dashboard")
+                if(res.data.isAdmin === true) navigate("/admin")
+            }
         } catch(err) {
             dispatch({type: "SIGNIN_FAILURE", payload: err.response.data})
         }

@@ -6,13 +6,13 @@ import fetchData from '../hook/fetchData';
 export default function Memo() {
 
     const {user, loading} = useContext(AuthContext);
-    //const { data } = fetchData(`/api/memo/${user._id}`)
-    const { data, reFetch } = fetchData(`/api/memo`)
+    const { data } = fetchData("/api/memo")
     const current = new Date();
 
     const [inputs, setInputs] = useState({
         memo: "",
         postedBy: user._id,
+        userId: user.username,
         date: `${current.getDate()}/${current.getMonth()+1}/${current.getFullYear()}`,
     })
 
@@ -36,7 +36,6 @@ export default function Memo() {
         try {
             await axios.delete(`/api/memo/${memoId}`)
             window.location.reload(false);
-            return reFetch
         } catch (error) {
             console.log(error)
         }
@@ -45,25 +44,31 @@ export default function Memo() {
     return(
         <>
             <section class="px-8 lg:mx-40">
-                {data.postedBy === user._id ? (<>{data.map((m) => (
-                    <div class="p-5 my-4 bg-white rounded-xl border border-strokeColour shadow-md">
-                    <ol class="mt-3 divide-y divider-strokeColor">
-                        <li>
-                            <div>
-                                <span class="inline-flex items-center text-xs font-normal text-gray-500">
-                                    {m.date}
-                                </span>
-                                <p class="text-base font-semibold text-gray-900">
-                                    {m.memo}
-                                </p>
-                                <button onClick={() => deleteMemo(m._id)} class="flex text-sm font-normal text-gray-400">
-                                    delete
-                                </button>
+                {data ? (<>{data.map((m, i) => {
+                    return (
+                        <>
+                        {m.postedBy === user._id && 
+                            <div class="p-5 my-4 bg-white rounded-xl border border-strokeColour shadow-md">
+                                <ol class="mt-3 divide-y divider-strokeColor">
+                                    <li>
+                                        <div key={i}>
+                                            <span class="inline-flex items-center text-xs font-normal text-gray-500">
+                                                {m.date}
+                                            </span>
+                                            <p class="text-base font-semibold text-gray-900">
+                                                {m.memo}
+                                            </p>
+                                            <button onClick={() => deleteMemo(m._id)} class="flex text-sm font-normal text-gray-400">
+                                                delete
+                                            </button>
+                                        </div>
+                                    </li>
+                                </ol>
                             </div>
-                        </li>
-                    </ol>
-                </div>
-                ))}
+                        }
+                        </>
+                    )
+                })}
                 </>) : (
                     <div className="px-8 lg:mx-40">
                         <p>Nothing here yet...</p>

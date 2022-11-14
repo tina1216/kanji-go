@@ -8,6 +8,7 @@ import Search from "./Search"
 import Questions from "./Questions"
 import Comments from "./Comments"
 import Profile from './Profile'
+import Admin from "./Admin"
 
 import { Routes, Route} from 'react-router-dom'
 
@@ -19,7 +20,7 @@ export const Home = () => {
           <Route path="/signin" element={<Signin />} exact/>
           <Route path="/" element={<Main />} exact/>
           
-          {/* test */}
+          <Route path="/admin" element={<Admin/>} exact/>
           <Route path="/dashboard" element={<Dashboard/>} exact/>
           <Route path="/quiz" element={<Quiz />} exact/>
           <Route path="/saved" element={<Saved />} exact/>
