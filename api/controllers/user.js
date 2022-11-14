@@ -64,8 +64,9 @@ export const getUser = async(req, res) => {
 export const getAllUsers = async(req, res) => {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     try {
-        const Users = await User.find(req.params.id);
-        res.status(200).json(Users)
+        const users = await User.find(req.params.id);
+        res.status(200).json(users)
+        console.log(users)
     } catch(err) {
         res.status(500).json(err)
     }

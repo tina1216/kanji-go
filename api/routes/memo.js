@@ -12,8 +12,8 @@ router.post("/createMemo", verifyUser, createMemo);
 router.put("/:id", verifyUser, updateMemo);
 
 //delete
-// router.delete("/:id", verifyUser, deleteMemo);
-router.delete("/:id", deleteMemo);
+router.delete("/:id", verifyUser, deleteMemo);
+// router.delete("/:id", deleteMemo);
 
 //get
 router.get("/:id", getMemo)
