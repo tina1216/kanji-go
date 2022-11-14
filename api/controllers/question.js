@@ -26,6 +26,7 @@ export const updateQuestion = async(req, res) => {
 
 //delete
 export const deleteQuestion = async(req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     try {
         await Question.findByIdAndDelete(req.params.id);
         res.status(200).json("Question has been deleted.")
@@ -86,6 +87,7 @@ export const createComment = async(req,res) => {
 
 //delete comment
 export const deleteComment = async(req,res) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     Question.findOne(req.body.postId)
     .populate("comments.postedBy", "_id name")
     .populate("postedBy", "_id name")

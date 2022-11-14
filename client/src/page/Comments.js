@@ -1,16 +1,32 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from 'react-router';
 
 import axios from '../api/axios';
 import Navbar from "../components/Navbar"
 import BottomComment from "../components/BottomComment"
 import CommentForm from "../components/CommentForm";
 import fetchData from "../hook/fetchData"
+import { AuthContext } from '../context/AuthContext';
 
 export default function Comments() {
 
+    const navigate = useNavigate()
+    const {user} = useContext(AuthContext)
     const qId = useParams();
     const { data, loading, error, reFetch } = fetchData(`/api/questions/${qId.id}`)
+
+    const deleteQuestion = async(e) => {
+        e.preventDefault();
+        try {
+            await axios.delete(`/api/questions/${qId.id}`)
+            console.log("a question is deleted")
+            navigate("/questions")
+            return reFetch
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return(
         <>
@@ -27,6 +43,11 @@ export default function Comments() {
                             </div>
                             <div class="flex items-center space-x-8">
                                 <time class="text-xs text-neutral-500">{data.date ? data.date : data.createdAt}</time>
+                                
+                                {data.postedBy === user._id ? 
+                                <button onClick={deleteQuestion} class="flex text-xs font-normal text-gray-500">
+                                    delete
+                                </button> : ""}
                             </div>
                         </div>
                 

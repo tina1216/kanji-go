@@ -6,13 +6,11 @@ import cors from "cors"
 
 import authRoute from "./routes/auth.js"
 import questionRoute from "./routes/question.js"
-import kanjiRoute from "./routes/kanji.js"
-import quizRoute from "./routes/quiz.js"
+import memoRoute from "./routes/memo.js"
 import usersRoute from "./routes/users.js"
 
 const app = express();
 dotenv.config()
-
 
 const connect = async() => {
     try {
@@ -38,11 +36,8 @@ app.use(express.json())//allow json format data
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", usersRoute);
-app.use("/api/quiz", quizRoute);
-//app.use("/api/kanji", kanjiRoute);
+app.use("/api/memo", memoRoute);
 app.use("/api/questions", questionRoute);
-//app.use("/api/profile", authRoute);
-
 
 const port = process.env.PORT || 5000
 app.listen(port, () => {

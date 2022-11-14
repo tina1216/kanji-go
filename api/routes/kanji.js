@@ -1,6 +1,6 @@
 import express from "express";
 import Kanji from "../models/Kanji.js";
-import Quiz from "../models/Quiz.js"
+import Quiz from "../models/Memo.js"
 import { createKanji, deleteKanji, getAllKanji, getKanji, updateKanji } from "../controllers/kanji.js";
 import { verifyAdmin } from "../utils/verifyToken.js";
 

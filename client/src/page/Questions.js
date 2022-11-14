@@ -1,12 +1,9 @@
-import { useContext } from 'react';
 import {Link} from 'react-router-dom'
-import { useNavigate } from 'react-router';
-
 import Navbar from "../components/Navbar"
 import QuestionForm from "../components/QuestionForm"
-import { AuthContext } from '../context/AuthContext';
-import fetchData from '../hook/fetchData';
 
+import fetchData from '../hook/fetchData';
+import axios from "../api/axios";
 
 export default function Questions() {
 
@@ -42,7 +39,7 @@ export default function Questions() {
                                   </p>
                                   <span class="inline-flex items-center text-xs font-normal text-gray-500">
                                       {q.userId ? q.userId : q.postedBy} - {q.date ? q.date : q.createdAt}
-                                  </span> 
+                                  </span>                                  
                               </div>
                             </li>
                           </ol>

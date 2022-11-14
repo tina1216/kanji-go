@@ -1,15 +1,25 @@
-import { useContext, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Navigate, useParams } from "react-router-dom";
+import { useNavigate } from 'react-router';
 import Navbar from "../components/Navbar"
 import { AuthContext } from "../context/AuthContext";
 import fetchData from "../hook/fetchData"
-
+import axios from "../api/axios";
 
 export default function Profile() {
-
-    const {user} = useContext(AuthContext);
+    
+    const navigate = useNavigate()
+    const {user, dispatch} = useContext(AuthContext);
     const userParams = useParams();
     const { data } = fetchData(`/api/users/${userParams.id}`)
+
+    const [currInfo, setCurrInfo] = useState({
+        username: user.username,
+        email: user.email,
+        password: user.password,
+        profImg: user.profImg,
+        isAdmin: user.isAdmin,
+    })
 
     const [newInputs, setNewInputs] = useState({
         username: "",
@@ -18,6 +28,33 @@ export default function Profile() {
         profImg: "",
         isAdmin: user.isAdmin,
     })
+
+    const handleChange = (e) => {
+        setNewInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    }
+
+    const submitChange = async(event) => {
+        event.preventDefault();
+        try {
+            await axios.put(`/api/users/${userParams.id}`, newInputs)
+            window.location.reload(false);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const submitDelete = async(e) => {
+        e.preventDefault();
+        try {
+            await axios.delete(`/api/users/${userParams.id}`)
+            console.log("deleted a user")
+            dispatch({type: "DELETED"})
+            navigate("/")
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
 
     return(
         <>
@@ -49,56 +86,63 @@ export default function Profile() {
                                                             <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag and drop</p>
                                                             <p class="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                                                         </div>
-                                                        <input id="dropzone-file" type="file" class="hidden" />
+                                                        <input 
+                                                        id="dropzone-file" 
+                                                        type="file" 
+                                                        class="hidden" 
+                                                        name="profImg"
+                                                        onChange={handleChange}
+                                                        />
                                                     </label>
                                                 </div> 
                                             </div>
                                             
                                             <div class='w-full md:w-full px-3 mb-6'>
                                                 <label class='block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2'>user name</label>
-                                                <input class='appearance-none block w-full bg-white text-gray-900 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none focus:border-gray-500' 
+                                                <input class='block w-full bg-white text-gray-900 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none focus:border-gray-500' 
                                                 type='text' 
-                                                required
+                                                name="username"
+                                                defaultValue={currInfo.username}
+                                                onChange={handleChange}
                                                 />
                                             </div>
 
                                             <div class='w-full md:w-full px-3 mb-6'>
                                                 <label class='block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2' for='grid-text-1'>Email address</label>
-                                                <input class='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none focus:border-gray-500' 
+                                                <input class='block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none focus:border-gray-500' 
                                                 id='grid-text-1' 
                                                 type='text' 
-                                                placeholder='Enter email' 
-                                                required/>
+                                                name="email"
+                                                defaultValue={currInfo.email}
+                                                onChange={handleChange}
+                                                />
                                             </div>
 
                                             <div class='w-full md:w-full px-3 mb-6 '>
                                                 <label class='block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2'>Password</label>
-                                                <input class='appearance-none block w-full bg-white text-gray-900 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none focus:border-gray-500' 
+                                                <input class='block w-full bg-white text-gray-900 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none focus:border-gray-500' 
                                                 id='grid-text-1' 
                                                 type='password' 
-                                                placeholder='Enter password' 
-                                                required/>
+                                                name="password"
+                                                defaultValue={currInfo.password}
+                                                onChange={handleChange}
+                                                />
                                             </div>
 
-                                            <div class="personal w-full border-t border-strokeColour pt-4">
-                                                <h2 class="text-2xl text-gray-900">Personal info:</h2>
-                                                <div class="flex items-center justify-between mt-4">
-                                                    <div class='w-full md:w-1/2 px-3 mb-6'>
-                                                        <label class='block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2' >First name</label>
-                                                        <input class='appearance-none block w-full bg-white text-gray-900 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required/>
-                                                    </div>
-                                                    <div class='w-full md:w-1/2 px-3 mb-6'>
-                                                        <label class='block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2' >last name</label>
-                                                        <input class='appearance-none block w-full bg-white text-gray-900 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required/>
-                                                    </div>
-                                                </div>
-                                                <div class='w-full md:w-full px-3 mb-6'>
-                                                    <label class='block uppercase tracking-wide text-gray-900 text-xs font-bold mb-2' >Bio</label>
-                                                    <textarea class='bg-white rounded-md border leading-normal resize-none w-full h-20 py-2 px-3 shadow-inner border border-gray-400 font-medium placeholder-gray-700 focus:outline-none focus:bg-white'  required></textarea>
-                                                </div>
-                                                <div class="flex justify-end">
-                                                    <button class="appearance-none bg-mainBlue text-white px-3 py-2 shadow-sm border border-gray-400 rounded-lg mr-3" type="submit">Save changes</button>
-                                                </div>
+                                            <div class="flex justify-between">
+                                                <button class="bg-gray-400 text-gray-400 px-3 py-2 shadow-sm border border-gray-400 rounded-lg" 
+                                                type="submit"
+                                                onClick={submitDelete}
+                                                >
+                                                    Delete Account
+                                                </button>
+                                                
+                                                <button class="bg-mainBlue text-white px-3 py-2 shadow-sm border border-gray-400 rounded-lg" 
+                                                type="submit"
+                                                onClick={submitChange}
+                                                >
+                                                    Save changes
+                                                </button>
                                             </div>
                                         </div>
                                     </form>

@@ -1,5 +1,5 @@
 import Kanji from "../models/Kanji.js"
-import Quiz from "../models/Quiz.js"
+import Quiz from "../models/Memo.js"
 
 //create (generate)
 export const createKanji = async(req, res, next) => {

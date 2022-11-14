@@ -35,6 +35,12 @@ const AuthReducer = (state, action) => {
         loading: false,
         error: null,
       };
+      case "DELETED":
+        return {
+          user: null,
+          loading: false,
+          error: null,
+        };
     default:
       return state;
   }

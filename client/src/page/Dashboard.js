@@ -1,12 +1,13 @@
+import Memo from "../components/Memo"
 import Navbar from "../components/Navbar"
-import MyPage from "./MyPage"
+import Banner from "../components/Banner"
 
 export default function Dashboard() {
     return(
-        <div className="antialiased bg-bgDashboard">
+        <div className="antialiased bg-bgDashboard h-screen">
             <Navbar/>
-
-            <MyPage/>
+            <Banner/>
+            <Memo/>
         </div>
     )
 }
