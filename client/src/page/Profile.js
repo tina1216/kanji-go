@@ -25,7 +25,6 @@ export default function Profile() {
         username: "",
         email: "",
         password: "",
-        profImg: "",
         isAdmin: user.isAdmin,
     })
 

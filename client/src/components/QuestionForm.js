@@ -6,7 +6,8 @@ export default function QuestionForm() {
 
     const {user, loading} = useContext(AuthContext);
     const current = new Date();
-
+    console.log(user)
+    
     const [inputs, setInputs] = useState({
         title: "",
         body: "",
@@ -23,8 +24,10 @@ export default function QuestionForm() {
     const postQuestion = async(event) => {
         event.preventDefault();
         try {
-            await axios.post("/api/questions/qna", inputs)
-            window.location.reload(false);
+            if(inputs !== "") {
+                await axios.post("/api/questions/qna", inputs)
+                window.location.reload(false);
+            }
         } catch (error) {
             console.log(error)
         }

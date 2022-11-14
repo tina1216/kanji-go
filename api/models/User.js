@@ -16,10 +16,6 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    profImg: {
-        type: String,
-        default: "",
-    },
     isAdmin: {
         type: Boolean,
         default: false,

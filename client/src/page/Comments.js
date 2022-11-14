@@ -20,7 +20,6 @@ export default function Comments() {
         e.preventDefault();
         try {
             await axios.delete(`/api/questions/${qId.id}`)
-            console.log("a question is deleted")
             navigate("/questions")
             return reFetch
         } catch (error) {

@@ -6,18 +6,20 @@ const router = express.Router();
 
 //create
 router.post("/createMemo", verifyUser, createMemo);
+// router.post("/createMemo", createMemo);
 
 //update
 router.put("/:id", verifyUser, updateMemo);
 
 //delete
-router.delete("/:id", verifyUser, deleteMemo);
+// router.delete("/:id", verifyUser, deleteMemo);
+router.delete("/:id", deleteMemo);
 
 //get
 router.get("/:id", getMemo)
 
 
-//get all
+//get all memo
 router.get("/", getAllMemo)
 
 

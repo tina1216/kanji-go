@@ -1,19 +1,26 @@
 import jwt from "jsonwebtoken";
 
-export const verifyToken = (req, res, next) => {
+export const verifyToken = async(req, res, next) => {
+    console.log('Cookies: ', req.cookies)
     const token = req.cookies.access_token;
-    
-    if(!token) {
-        return res.status(401).send("Not authenticated.");
-    }
+    console.log('Token: ', token)
 
-    jwt.verify(token, process.env.JWT, (err, user) => {
-        if(err) {
-            return res.status(403).send("Token is not valid.");
+    try {
+        if(!token) {
+            return res.status(401).send("Not authenticated.");
         }
-        req.user = user;
-        next();
-    })
+    
+        await jwt.verify(token, process.env.JWT, (err, user) => {
+            if(err) {
+                res.status(403).send("Token is not valid.");
+                return next()
+            }
+            req.user = user;
+            next();
+        })
+    } catch (error) {
+        return res.status(500).json(err.toString());
+    }
 }
 
 export const verifyUser = (req, res, next) => {

@@ -23,10 +23,12 @@ const QuestionSchema = new mongoose.Schema({
     }],
     userId: {
         type: String,
+        required: true,
     },
     postedBy: {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true,
     },
     date : {
         type: String,

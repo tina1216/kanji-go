@@ -11,7 +11,8 @@ router.post("/qna", createQuestion);
 router.put("/:id",verifyUser, verifyAdmin, updateQuestion);
 
 //delete
-router.delete("/:id", verifyUser, verifyAdmin, deleteQuestion);
+// router.delete("/:id", verifyUser, verifyAdmin, deleteQuestion);
+router.delete("/:id",deleteQuestion);
 
 //get one
 router.get("/:id", getQuestion)

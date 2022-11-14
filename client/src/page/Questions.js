@@ -3,7 +3,6 @@ import Navbar from "../components/Navbar"
 import QuestionForm from "../components/QuestionForm"
 
 import fetchData from '../hook/fetchData';
-import axios from "../api/axios";
 
 export default function Questions() {
 

@@ -6,7 +6,8 @@ import fetchData from '../hook/fetchData';
 export default function Memo() {
 
     const {user, loading} = useContext(AuthContext);
-    const { data } = fetchData(`/api/memo/${user._id}`)
+    //const { data } = fetchData(`/api/memo/${user._id}`)
+    const { data, reFetch } = fetchData(`/api/memo`)
     const current = new Date();
 
     const [inputs, setInputs] = useState({
@@ -19,6 +20,7 @@ export default function Memo() {
         setInputs((prev) => ({ ...prev, [e.target.id]: e.target.value }));
     }
 
+    //send the form data to a server
     const postMemo = async(event) => {
         event.preventDefault();
         try {
@@ -29,10 +31,21 @@ export default function Memo() {
         }
     }
 
+    //delete a memo
+    const deleteMemo = async(memoId) => {
+        try {
+            await axios.delete(`/api/memo/${memoId}`)
+            window.location.reload(false);
+            return reFetch
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return(
         <>
             <section class="px-8 lg:mx-40">
-                {data ? (<>{data.map((m) => (
+                {data.postedBy === user._id ? (<>{data.map((m) => (
                     <div class="p-5 my-4 bg-white rounded-xl border border-strokeColour shadow-md">
                     <ol class="mt-3 divide-y divider-strokeColor">
                         <li>
@@ -43,9 +56,9 @@ export default function Memo() {
                                 <p class="text-base font-semibold text-gray-900">
                                     {m.memo}
                                 </p>
-                                <p class="flex text-sm font-normal text-gray-400">
+                                <button onClick={() => deleteMemo(m._id)} class="flex text-sm font-normal text-gray-400">
                                     delete
-                                </p>
+                                </button>
                             </div>
                         </li>
                     </ol>
