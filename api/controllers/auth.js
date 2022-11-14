@@ -25,6 +25,7 @@ export const signup = async(req, res) => {
 //signin
 export const signin = async(req, res, next) => {
     try {
+        res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
         const user = await User.findOne({email: req.body.email})
         !user && res.status(404).send("User not found")
 
@@ -35,9 +36,12 @@ export const signin = async(req, res, next) => {
 
         const {password, isAdmin, ...otherDetails} = user._doc;
 
-        res.cookie("access_token", token, {httpOnly: true}).status(200).json({...otherDetails})
-        console.log(token)
-        
+        res.cookie("access_token", token, {
+            httpOnly: true, 
+            exp: Math.floor(Date.now() / 1000) + (60 * 60)
+        }).status(200).json({isAdmin, ...otherDetails })
+
+        //res.cookie("access_token", token, {httpOnly: true}).status(200).json({ ...otherDetails })
     } catch (error) {
         res.status(500).json(error)
         next(error)
@@ -51,7 +55,6 @@ export const signout = async(req, res) => {
         res.
         res.status(200).json('Logout success')
     } catch (error) {
-        res.status(500).json(error)
-      
+        res.status(500).json(error) 
     }
 }

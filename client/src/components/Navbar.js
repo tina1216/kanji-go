@@ -8,7 +8,7 @@ export const Navbar = () => {
 
     const navigate = useNavigate()
     const {user, dispatch} = useContext(AuthContext);
-    console.log(user)
+
     return(
         <>
         <header class="h-16 flex items-center border-b border-gray-300">

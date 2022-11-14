@@ -34,7 +34,7 @@ export const deleteMemo = async(req, res) => {
     }
 }
 
-//get specific memo
+//get specific memo by memo ID
 export const getMemo = async(req, res) => {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     try {

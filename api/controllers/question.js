@@ -69,13 +69,13 @@ export const createComment = async(req,res) => {
         postedBy: req.user._id
     }
     
-    Question.findByIdAndUpdate(req.body.id,{
+    Question.findByIdAndUpdate(req.params.id,{
         $push: {comments: comment}
     },{
         new: true
     })
-    .populate("comments.postedBy","_id name")
-    .populate("postedBy","_id name")
+    .populate("comments.postedBy","_id")
+    .populate("postedBy","_id")
     .exec((err,result) => {
         if(err){
             return res.status(422).json({error: err})
